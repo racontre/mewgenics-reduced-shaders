@@ -1,6 +1,8 @@
 #version 150
 #include "std_in.shader"
 
+// Even if you do turn off vignette in the settings, this doesn't stop calculating. You can't disable it, otherwise the screen goes black. Puts a bit of a shadow around the screen.
+
 uniform float vignette_strength_relative;
 
 struct vertex {
@@ -28,8 +30,12 @@ struct vertex {
     out vec4 frag_color;
 
     void frag(){
+	// frag_color = vec4(0.0, 1.0, 0.0, 1.0); //green
+	frag_color = vec4(1.0, 1.0, 1.0, 1.0);
+	return;
         vec2 center_vector = (v.texcoord.xy - vec2(.5,.5))*vec2(1.0, 1.0);
-        float center_distance = length(center_vector)*2; //0 at center, 1 at edge, sqrt(2) at corner
+        //float center_distance = length(center_vector)*2; //0 at center, 1 at edge, sqrt(2) at corner
+	float center_distance = 0;
         float vignetting = 1.5-center_distance;
         vignetting = mix(1, vignetting, vignette_strength);
         vignetting = clamp(vignetting, 0, 1);
