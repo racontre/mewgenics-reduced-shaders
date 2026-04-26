@@ -38,7 +38,6 @@ struct vertex
     }
 
     void frag(){
-return;
 		vec4 tex = texture(framebuf, v.texcoord.xy);
         ivec2 coord = ivec2(v.texcoord.xy*textureSize(framebuf, 0));
 

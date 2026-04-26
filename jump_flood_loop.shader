@@ -35,7 +35,6 @@ struct vertex
     }
 
     void frag(){
-	return;
         vec2 texsize = textureSize(framebuf, 0);
 		ivec2 coord = ivec2(v.texcoord.xy*texsize);
         vec4 tex_center = texelFetch(framebuf, coord, 0);
