@@ -1,0 +1,35 @@
+#version 150
+#include "std_in.shader"
+uniform sampler2D framebuf;
+
+struct vertex {
+    vec4 color;
+    vec4 texcoord;
+    vec2 screencoord;
+};
+
+
+#if COMPILING_VERTEX_PROGRAM
+    out vertex v;
+
+    void vert(){
+        v.color = color;
+        v.texcoord = texcoord;
+        gl_Position = mvp * vec4(position.xy, 0.0, 1.0);
+        //v.screencoord = (gl_Position.xy+vec2(1, 1))*.5; //sample calculation if using odd shapes or ignoring texture coordinates
+    } 
+#elif COMPILING_FRAGMENT_PROGRAM
+    in vertex v;
+    out vec4 frag_color;
+
+    void frag(){
+        ivec2 pxcoord = ivec2(round(v.texcoord.xy * textureSize(framebuf, 0)));
+
+        vec3 accum  = texelFetch(framebuf, pxcoord, 0).rgb;
+             accum += texelFetch(framebuf, pxcoord + ivec2(-1, -1), 0).rgb;
+             accum += texelFetch(framebuf, pxcoord + ivec2(-1, 0), 0).rgb;
+             accum += texelFetch(framebuf, pxcoord + ivec2(0, -1), 0).rgb;
+
+        frag_color = vec4(accum / 4.0, 1);
+    }
+#endif
