@@ -28,9 +28,9 @@ struct vertex
     out vec4 frag_color;
 
     void frag(){
-	frag_color = vec4(1.0,0.0,1.0,1.0);
-	return;
-        float x,y,rr=radius*radius,d,w,w0;
+		frag_color = texture(framebuf, v.texcoord.xy);
+return;
+	    float x,y,rr=radius*radius,d,w,w0;
 		vec2 texSize = textureSize(framebuf, 0);
 		
         vec2 p=v.texcoord.xy;

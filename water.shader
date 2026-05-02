@@ -80,8 +80,7 @@ uniform mat4 camera_mat;
         reflection_color *= reflection_transparency;
         water_color = water_color * (1.0-reflection_color.a) + reflection_color;// * reflection_color.a;
 
-        //frag_color = mix(frag_color_main, water_color, iswater) * v.color_xform[0] + v.color_xform[1];
-frag_color = vec4(1.0, 0.0, 1.0, 1.0); 
+        frag_color = mix(frag_color_main, water_color, iswater) * v.color_xform[0] + v.color_xform[1];
         
         if(iswater < .5) discard;
 
